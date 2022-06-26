@@ -3,6 +3,8 @@
     import {user} from "$lib/stores";
     import Todo from "$lib/Todo.svelte"
     import {onMount} from "svelte";
+    import {goto} from "$app/navigation";
+
     let todos = [];
     let newClient = "";
 
@@ -49,6 +51,11 @@
             addNewClient();
         }
     }
+    const logOut = async() =>{
+        let { error } = await supabase.auth.signOut();
+        $user = false;
+        goto("/login");
+    }
     $:console.log($user);
 </script>
 <h4>Welcome {$user?.email ? $user.email :""}!</h4>
@@ -61,11 +68,21 @@
 {:else}
 <p>No Clients found </p>
 {/each}
+{#if $user.email}
+    <p on:click={logOut} class="switch">Logout</p>
+{/if}
 <svelte:window on:keypress={handleKeyPress} />
 <style>
     .add-todo{
         display: flex;
         margin-bottom: 0.5em;
+    }
+    :global(.switch){
+        color: lightskyblue;
+        cursor: pointer;
+    }
+    :global(.switch:hover){
+        text-decoration: underline;
     }
 </style>
 

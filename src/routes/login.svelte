@@ -2,7 +2,9 @@
     import {goto} from "$app/navigation";
     import supabase from "$lib/db";
     import {user} from "$lib/stores";
+
     let email = "";
+    let isNewRegistration = false;
     const signUp = async() =>{
         let { user: userDetails, error } = await supabase.auth.signUp({
             email: email,
@@ -27,8 +29,13 @@
 </label>
 <br>
 <br>
-<button on:click={signUp}>signup</button>
+{#if isNewRegistration }
+<button on:click={signUp}>Signup</button>
+ <p class="switch" on:click={() => isNewRegistration = false}>Already have an account?</p>
+{:else}
 <button on:click={logIn}>Login</button>
+ <p class="switch" on:click={() => isNewRegistration = true}>Create a new account?</p>
+{/if}
 <style>
 
 </style>
