@@ -1,5 +1,6 @@
 <script>
     import supabase from "$lib/db";
+    import {user} from "$lib/stores";
     import Todo from "$lib/Todo.svelte"
     import {onMount} from "svelte";
     let todos = [];
@@ -48,8 +49,9 @@
             addNewClient();
         }
     }
+    $:console.log($user);
 </script>
-<h1>Welcome to SvelteKit-todos</h1>
+<h4>Welcome {$user?.email ? $user.email :""}!</h4>
 <div class="add-todo">
     <input type="text" bind:value={newClient}>
     <button on:click={() => addNewClient()}>Add Client</button>
