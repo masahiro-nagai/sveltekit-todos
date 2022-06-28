@@ -23,7 +23,7 @@
         try{
             const { data, error } = await supabase
                 .from('todo')
-                .insert([{ client: newClient }])
+                .insert([{ client: newClient, user_id: $user.id }])
             await getAllTodo();
             newClient = "";
         }catch(err) {console.log(err)}
